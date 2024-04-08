@@ -30,6 +30,7 @@ module System.Logger.Class
 
     , L.DateFormat
     , L.iso8601UTC
+    , L.iso8601
 
     , L.Logger
     , L.new
@@ -67,4 +68,3 @@ info  = System.Logger.Class.log Info
 warn  = System.Logger.Class.log Warn
 err   = System.Logger.Class.log Error
 fatal = System.Logger.Class.log Fatal
-

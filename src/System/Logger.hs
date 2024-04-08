@@ -40,6 +40,7 @@ module System.Logger
     , DateFormat (..)
     , Renderer
     , iso8601UTC
+    , iso8601
 
       -- * Core API
     , new
@@ -137,7 +138,10 @@ new s = liftIO $ do
     fn (Path p) = flip FL.newFileLoggerSet p
 
     mkGetDate Nothing  = return (return id)
-    mkGetDate (Just f) = return (msg . (display f) <$> getUnixTime)
+    mkGetDate (Just f) = do
+      t <- getUnixTime
+      bs <- display f t
+      return $ return $ msg bs
 
     mergeWith m e = Map.fromList (readNote "Invalid LOG_LEVEL_MAP" e) `Map.union` m
 
@@ -202,7 +206,7 @@ putMsg g l f = liftIO $ do
     let r = renderer  $ settings g
     let x = delimiter $ settings g
     let s = nameMsg   $ settings g
-    let df = fromMaybe iso8601UTC . format $ settings g
+    let df = fromMaybe iso8601 . format $ settings g
     let ll = logLevel $ settings g
     let m = render (r x df ll) (d . lmsg l . s . f)
     FL.pushLogStr (logger g) (FL.toLogStr m)

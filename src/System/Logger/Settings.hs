@@ -37,6 +37,7 @@ module System.Logger.Settings
     , readEnvironment
     , setReadEnvironment
     , iso8601UTC
+    , iso8601
     ) where
 
 import Data.String
@@ -172,15 +173,19 @@ data Output
     deriving (Eq, Ord, Show)
 
 newtype DateFormat = DateFormat
-    { display :: UnixTime -> ByteString
+    { display :: UnixTime -> IO ByteString
     }
 
 instance IsString DateFormat where
-    fromString = DateFormat . formatUnixTimeGMT . pack
+    fromString = DateFormat . formatUnixTime . pack
 
--- | ISO 8601 date-time format.
+-- | ISO 8601 date-time format, local time.
+iso8601 :: DateFormat
+iso8601 = "%Y-%0m-%0dT%0H:%0M:%0S"
+
+-- | ISO 8601 date-time format, UTC time.
 iso8601UTC :: DateFormat
-iso8601UTC = "%Y-%0m-%0dT%0H:%0M:%0SZ"
+iso8601UTC = DateFormat $ return . formatUnixTimeGMT (pack "%Y-%0m-%0dT%0H:%0M:%0SZ")
 
 -- | Take a custom separator, date format, log level of the event, and render
 -- a list of log fields or messages into a builder.
@@ -209,7 +214,7 @@ defSettings = Settings
     Debug
     Map.empty
     StdOut
-    (Just iso8601UTC)
+    (Just iso8601)
     ", "
     defaultBufSize
     Nothing
