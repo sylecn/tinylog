@@ -1,9 +1,9 @@
 name:                 tinylog
-version:              0.15.0
+version:              0.15.1
 synopsis:             Simplistic logging using fast-logger.
 author:               Toralf Wittner
 maintainer:           Toralf Wittner <tw@dtex.org>
-copyright:            (C) 2014 Toralf Wittner
+copyright:            (C) 2014, 2024 Toralf Wittner, Yuanle Song
 homepage:             https://gitlab.com/twittner/tinylog/
 bug-reports:          https://gitlab.com/twittner/tinylog/issues
 license:              MPL-2.0

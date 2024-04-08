@@ -1,3 +1,7 @@
+0.15.1
+-----------------------------------------------------------------------------
+- bugfix: build with newer bytestring package
+
 0.15
 -----------------------------------------------------------------------------
 - Allow full control over the output format (merge requests #2, #3). To do
