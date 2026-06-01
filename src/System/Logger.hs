@@ -138,10 +138,10 @@ new s = liftIO $ do
     fn (Path p) = flip FL.newFileLoggerSet p
 
     mkGetDate Nothing  = return (return id)
-    mkGetDate (Just f) = do
+    mkGetDate (Just f) = return $ do
       t <- getUnixTime
       bs <- display f t
-      return $ return $ msg bs
+      return $ msg bs
 
     mergeWith m e = Map.fromList (readNote "Invalid LOG_LEVEL_MAP" e) `Map.union` m
 
